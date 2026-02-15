@@ -6,10 +6,15 @@ exports.getApiHealth = (req, res) => {
 
 exports.getAllBooks = async (req, res) => {
     try {
-        const books = await Book.find({});
-        return res.status(200).json({success: true, data: books});
+        const books = await Book.find(req.query); 
+        
+        return res.status(200).json({
+            success: true, 
+            count: books.length, // Hasznos infó: hány találat van
+            data: books
+        });
     } catch (err) {
-        return res.status(500).json({success: false, message: err});
+        return res.status(500).json({success: false, message: err.message});
     }
 }
 
